@@ -2,47 +2,73 @@
 using namespace std;
 
 int main() {
-    int n;
-    char op;
-    double num, result;
+    while (true) {
+        int n;
+        char op;
+        double num, result;
 
-    cout << "Enter operation (+, -, *, /): ";
-    cin >> op;
+        cout << "\n=== Simple Calculator ===\n";
+        cout << "Enter operation (+, -, *, /) or x to exit: ";
+        cin >> op;
 
-    cout << "How many numbers? ";
-    cin >> n;
+        if (op == 'x' || op == 'X') {
+            cout << "Exiting calculator...\n";
+            break;
+        }
 
-    cout << "Enter number 1: ";
-    cin >> result;  // start with the first number
+        if (op != '+' && op != '-' && op != '*' && op != '/') {
+            cout << "Invalid operator! Try again.\n";
+            continue;
+        }
 
-    for (int i = 2; i <= n; i++) {
-        cout << "Enter number " << i << ": ";
-        cin >> num;
+        cout << "How many numbers? ";
+        cin >> n;
 
-        switch(op) {
-            case '+':
-                result += num;
-                break;
-            case '-':
-                result -= num;
-                break;
-            case '*':
-                result *= num;
-                break;
-            case '/':
-                if (num != 0)
+        if (n <= 0) {
+            cout << "Number count must be positive.\n";
+            continue;
+        }
+
+        cout << "Enter number 1: ";
+        while (!(cin >> result)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input! Enter a valid number: ";
+        }
+
+        for (int i = 2; i <= n; i++) {
+            cout << "Enter number " << i << ": ";
+            while (!(cin >> num)) {
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Invalid input! Enter a valid number: ";
+            }
+
+            switch (op) {
+                case '+': result += num; break;
+                case '-': result -= num; break;
+                case '*': result *= num; break;
+                case '/':
+                    if (num == 0) {
+                        cout << "Error: Division by zero not allowed.\n";
+                        goto endLoop;
+                    }
                     result /= num;
-                else {
-                    cout << "Error: Division by zero not allowed";
-                    return 0;
-                }
-                break;
-            default:
-                cout << "Invalid operator";
-                return 0;
+                    break;
+            }
+        }
+
+        cout << "Result: " << result << "\n";
+
+        endLoop:
+        cout << "\nDo you want to perform another calculation? (y/n): ";
+        char again;
+        cin >> again;
+        if (again != 'y' && again != 'Y') {
+            cout << "Goodbye!\n";
+            break;
         }
     }
 
-    cout << "Result: " << result;
     return 0;
 }
