@@ -28,6 +28,10 @@ int main() {
             cout << "Number count must be positive.\n";
             continue;
         }
+        else 
+        {
+            cout<<"Number count must be negative.\n";
+        }
 
         cout << "Enter number 1: ";
         while (!(cin >> result)) {
